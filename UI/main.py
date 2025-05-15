@@ -1,6 +1,7 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QDockWidget, QTextEdit, QPushButton, QVBoxLayout, QWidget
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QKeySequence
 
 from eric7.UI.ai_core import ask_ai
 
@@ -44,6 +45,14 @@ class MainWindow(QMainWindow):
         # Додаємо панель AI
         self.ai_panel = AIAssistantPanel(self)
         self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self.ai_panel)
+
+        # Add keyboard shortcut to toggle AI panel
+        self.toggle_ai_shortcut = QShortcut(QKeySequence("Ctrl+Shift+A"), self)
+        self.toggle_ai_shortcut.activated.connect(self.toggle_ai_panel)
+
+    def toggle_ai_panel(self):
+        is_visible = self.ai_panel.isVisible()
+        self.ai_panel.setVisible(not is_visible)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
